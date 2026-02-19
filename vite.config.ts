@@ -1,12 +1,27 @@
 import { defineConfig } from "vite";
 import react from "@vitejs/plugin-react";
+import { fileURLToPath } from "node:url";
+import path from "node:path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 export default defineConfig({
   plugins: [react()],
-  server: {
-    host: "0.0.0.0",
-    port: 3000,
-    strictPort: true,
-    allowedHosts: [".trycloudflare.com", "localhost", "127.0.0.1"],
+
+  resolve: {
+    alias: {
+      "@": path.resolve(__dirname, "./src"),
+      "@components": path.resolve(__dirname, "./src/components"),
+      "@hooks": path.resolve(__dirname, "./src/hooks"),
+      "@lib": path.resolve(__dirname, "./src/lib"),
+      "@pages": path.resolve(__dirname, "./src/pages"),
+      "@contexts": path.resolve(__dirname, "./src/contexts"),
+    },
+  },
+
+  build: {
+    outDir: "dist",
+    emptyOutDir: true,
   },
 });
